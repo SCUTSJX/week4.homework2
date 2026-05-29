@@ -62,9 +62,10 @@ class ExamSys:
             print("当前没有学生数据，无法进行点名。")
             return
         while True:
+            user_input = input(f"请输入需要点名的学生数量（共 {total_students} 名学生）：")
             try:
                 # 1. 获取输入
-                user_input = input(f"请输入需要点名的学生数量（共 {total_students} 名学生）：")
+
                 # 尝试将输入转换为整数
                 num = int(user_input)
                 # 2. 逻辑判断 (在 try 块内部处理逻辑异常)
@@ -113,7 +114,8 @@ class ExamSys:
             print(f"成功生成考场安排表：{filename}")
         except Exception as e:
             print(f"生成文件时发生错误：{e}")
-    def generate_admission_tickets(self):
+    @staticmethod
+    def generate_admission_tickets():
         """功能6：打印准考证（含文件格式校验）"""
         folder_name = "准考证"
 
