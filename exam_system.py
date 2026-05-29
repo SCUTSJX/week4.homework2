@@ -48,7 +48,6 @@ class ExamSys:
             if stu.student_id == search_id:
                 #打印详细信息
                 print("\n查询结果：")
-                # 这里利用了你之前写的 __str__ 方法，或者你可以手动格式化打印
                 print(f"序号: {stu.id}  姓名: {stu.name}  性别: {stu.gender}  班级: {stu.class_id}  学号: {stu.student_id}  学院: {stu.college}")
                 found = True
                 break  # 找到了就不用继续找了
