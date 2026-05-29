@@ -4,12 +4,7 @@ import student
 
 class ExamSys:
     def __init__(self):
-        try:
             self.students = student.Student.load_students()
-            print(f"【系统】已成功加载 {len(self.students)} 名学生数据。")
-        except Exception as e:
-            print(f"【系统】 加载学生数据失败: {e}，系统将以空数据启动。")
-            self.students = []
 
     def run(self):
         """功能1：主菜单循环"""
