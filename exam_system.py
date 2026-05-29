@@ -4,7 +4,13 @@ import student
 
 class ExamSys:
     def __init__(self):
-        self.students = student.Student.load_students()#列表内存储学生类
+        try:
+            self.students = student.Student.load_students()
+            print(f"【系统】已成功加载 {len(self.students)} 名学生数据。")
+        except Exception as e:
+            print(f"【系统】 加载学生数据失败: {e}，系统将以空数据启动。")
+            self.students = []
+
     def run(self):
         """功能1：主菜单循环"""
         print("\n====== 学生信息与考场管理系统 ======")
@@ -15,20 +21,23 @@ class ExamSys:
         print('+',"-" * 35)
         print("0. 退出系统")
         while True:
-            choice = input("请输入功能编号: ").strip()
-            if choice == '1':
-                self.find_student()
-            elif choice == '2':
-                self. random_roll_call()
-            elif choice == '3':
-                self.generate_exam_arrangement()
-            elif choice == '4':
-                self.generate_admission_tickets()
-            elif choice == '0':
-                print("感谢使用，系统已退出。再见！")
-                break
-            else:
-                print("功能编号不存在，请正确输入功能编号（0~4）：")
+            try:
+                choice = input("请输入功能编号: ").strip()
+                if choice == '1':
+                    self.find_student()
+                elif choice == '2':
+                    self. random_roll_call()
+                elif choice == '3':
+                    self.generate_exam_arrangement()
+                elif choice == '4':
+                    self.generate_admission_tickets()
+                elif choice == '0':
+                    print("感谢使用，系统已退出。再见！")
+                    break
+                else:
+                    print("功能编号不存在，请正确输入功能编号（0~4）：")
+            except Exception as e:print(f"菜单操作出现异常：{e}")
+
     def find_student(self):
         # 1. 获取用户输入的学号
         search_id = input("请输入要查询的学号: ").strip()
@@ -43,7 +52,6 @@ class ExamSys:
                 print(f"序号: {stu.id}  姓名: {stu.name}  性别: {stu.gender}  班级: {stu.class_id}  学号: {stu.student_id}  学院: {stu.college}")
                 found = True
                 break  # 找到了就不用继续找了
-
         # 4. 如果循环结束后标记仍然是 False，说明没找到
         if not found:
             print(f"未找到该学号对应的学生，请检查输入是否正确。")
@@ -77,7 +85,6 @@ class ExamSys:
                     print(f"{i}. {stu.name} {stu.student_id}")
 
                 break  # 任务完成，跳出 while 循环
-
             except ValueError:
                 # 情况(1)：输入非数字字符的异常
                 print(f"[输入错误] 请输入整数类型的数据并且小于等于10'{user_input}'")
@@ -97,6 +104,9 @@ class ExamSys:
                 # 4. 遍历打乱后的列表
                 # enumerate 的第二个参数 1 表示索引从 1 开始（即座位号）
                 for seat_num, stu in enumerate(temp_students, 1):
+                    if not hasattr(stu, 'name') or not hasattr(stu, 'student_id'):
+                        print(f"[警告] 跳过一名属性不全的学生数据。")
+                        continue
                     # 5. 按照 "座位号,姓名,学号" 的格式拼接字符串
                     line = f"{seat_num},{stu.name},{stu.student_id}\n"
                     # 6. 写入文件
@@ -110,13 +120,15 @@ class ExamSys:
 
         # 1. 创建文件夹（如果已存在则不报错）
         os.makedirs(folder_name, exist_ok=True)
-
         # 2. 读取考场安排表
         try:
             with open("考场安排表.txt", "r", encoding="utf-8") as f:
                 lines = f.readlines()
         except FileNotFoundError:
             print("错误：找不到【考场安排表.txt】，请先按3生成考场安排表！")
+            return
+        if not lines:  # 如果 lines 是空列表，条件成立
+            print("错误：考场安排表为空，无法生成准考证！")
             return
         print("正在生成准考证...")
         # 3. 遍历并解析数据
@@ -133,7 +145,6 @@ class ExamSys:
             # 4. 生成文件名（保持两位数格式，如 01.txt）
             filename = f"{i + 1:02d}.txt"
             filepath = os.path.join(folder_name, filename)
-
             # 5. 写入准考证内容
             try:
                 with open(filepath, "w", encoding="utf-8") as f:
