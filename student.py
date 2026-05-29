@@ -1,7 +1,7 @@
 import os
 class Student:
-    def __init__(self, id, name, gender, class_id, student_id, college):
-        self.id = id                # 序号
+    def __init__(self, id_, name, gender, class_id, student_id, college):
+        self.id = id_                # 序号
         self.name = name            # 姓名
         self.gender = gender        # 性别
         self.class_id = class_id    # 班级
