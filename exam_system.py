@@ -131,8 +131,6 @@ class ExamSys:
                 continue
             seat_num, name, student_id = parts[0], parts[1], parts[2]
             # 4. 生成文件名（保持两位数格式，如 01.txt）
-            # 这里使用 seat_num 作为文件名依据，或者使用循环变量 i+1 也可以
-            # 为了稳妥，我们用循环变量 i+1 来命名文件，保证顺序
             filename = f"{i + 1:02d}.txt"
             filepath = os.path.join(folder_name, filename)
 
@@ -146,6 +144,4 @@ class ExamSys:
                 print(f"生成文件 {filename} 时发生错误：{e}")
 
         print("准考证生成完毕！")
-sys=ExamSys()
-print(sys.students)
-sys.run()
+
