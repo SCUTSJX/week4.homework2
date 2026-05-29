@@ -22,10 +22,7 @@ class Student:
                     line = line.strip()  # 去掉每行首尾的换行符和空格
                     if not line:  # 如果遇到空行，直接跳过
                         continue
-
-                    # 假设文件是用逗号分隔的，将其切分成列表
                     data = line.split()
-
                     # 确保这一行正好有6个数据（防止文件格式错乱导致报错）
                     if len(data) == 6:
                         # 使用 cls(...) 也就是 Student(...) 来实例化一个学生对象
@@ -33,8 +30,6 @@ class Student:
                         students.append(student_obj)  # 把生成的对象加入列表
 
             print(f"【系统】已成功加载 {len(students)} 名学生信息。")
-
         except Exception as e:
             print(f"读取文件时发生未知错误: {e}")
-
         return students
